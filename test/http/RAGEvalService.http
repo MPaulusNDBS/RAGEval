@@ -1,0 +1,135 @@
+@server = http://localhost:4004
+
+
+### Results
+# @name Results_GET
+GET {{server}}/odata/v4/rageval/Results
+
+
+
+### Results
+# @name Results_POST
+POST {{server}}/odata/v4/rageval/Results
+Content-Type: application/json
+
+{
+  "ID": "29584006-1797-4412-b6dc-e26f44fc5045",
+  "configuration": {
+    "ID": "25610745-dcc4-4325-be92-a821406ba21e"
+  },
+  "rating": 94.55,
+  "createdAt": "2014-07-31T00:00:00.000Z",
+  "createdBy": "createdBy.1reps@example.org",
+  "modifiedAt": "2020-08-23T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.1reps@example.net"
+}
+
+
+### Results
+# @name Results_PATCH
+PATCH {{server}}/odata/v4/rageval/Results/29584006-1797-4412-b6dc-e26f44fc5045
+Content-Type: application/json
+
+{
+  "ID": "29584006-1797-4412-b6dc-e26f44fc5045",
+  "configuration": {
+    "ID": "25610745-dcc4-4325-be92-a821406ba21e"
+  },
+  "rating": 94.55,
+  "createdAt": "2014-07-31T00:00:00.000Z",
+  "createdBy": "createdBy.1reps@example.org",
+  "modifiedAt": "2020-08-23T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.1reps@example.net"
+}
+
+
+### Results
+# @name Results_DELETE
+DELETE {{server}}/odata/v4/rageval/Results/29584006-1797-4412-b6dc-e26f44fc5045
+Content-Type: application/json
+
+
+### Configuration
+# @name Configuration_GET
+GET {{server}}/odata/v4/rageval/Configuration
+
+
+
+### Configuration
+# @name Configuration_POST
+POST {{server}}/odata/v4/rageval/Configuration
+Content-Type: application/json
+
+{
+  "ID": "25610745-dcc4-4325-be92-a821406ba21e",
+  "llmModel": "llmModel-25610745",
+  "taskType": "tableExtraction",
+  "chunkSize": 65,
+  "chunkOverlap": 47,
+  "chunkingMethod": "recursiveChunking",
+  "embeddingModel": "ada02"
+}
+
+
+### Configuration
+# @name Configuration_PATCH
+PATCH {{server}}/odata/v4/rageval/Configuration/25610745-dcc4-4325-be92-a821406ba21e
+Content-Type: application/json
+
+{
+  "ID": "25610745-dcc4-4325-be92-a821406ba21e",
+  "llmModel": "llmModel-25610745",
+  "taskType": "tableExtraction",
+  "chunkSize": 65,
+  "chunkOverlap": 47,
+  "chunkingMethod": "recursiveChunking",
+  "embeddingModel": "ada02"
+}
+
+
+### Configuration
+# @name Configuration_DELETE
+DELETE {{server}}/odata/v4/rageval/Configuration/25610745-dcc4-4325-be92-a821406ba21e
+Content-Type: application/json
+
+
+### Chunks
+# @name Chunks_GET
+GET {{server}}/odata/v4/rageval/Chunks
+
+
+
+### Chunks
+# @name Chunks_POST
+POST {{server}}/odata/v4/rageval/Chunks
+Content-Type: application/json
+
+{
+  "ID": "199661a0-07e6-4a35-bb98-9d985c3c04bb",
+  "content": "content-199661"
+}
+
+
+### Chunks
+# @name Chunks_PATCH
+PATCH {{server}}/odata/v4/rageval/Chunks/199661a0-07e6-4a35-bb98-9d985c3c04bb
+Content-Type: application/json
+
+{
+  "ID": "199661a0-07e6-4a35-bb98-9d985c3c04bb",
+  "content": "content-199661"
+}
+
+
+### Chunks
+# @name Chunks_DELETE
+DELETE {{server}}/odata/v4/rageval/Chunks/199661a0-07e6-4a35-bb98-9d985c3c04bb
+Content-Type: application/json
+
+
+### test
+# @name test_POST
+POST {{server}}/odata/v4/rageval/test
+Content-Type: application/json
+
+{}
