@@ -1,25 +1,33 @@
-# Getting Started
+# RAG Evaluation
+this projects aims to develop a pipeline for automatically evaluating a given RAG setup, especially hyperparameters shall be evaluated 
 
-Welcome to your new project.
+Hyperparameters: 
 
-It contains these folders and files, following our recommended project layout:
+    - LLM Model
+    - LLM Temperature
+    - Chunking Method
+    - Chunk Size
+    - Chunk Overlap
+    - Embedding Model
+    - Embedding Vector Size
+    - Amount of Chunks given to LLM
+    - System prompt
 
-File or Folder | Purpose
----------|----------
-`app/` | content for UI frontends goes here
-`db/` | your domain models and data go here
-`srv/` | your service models and code go here
-`package.json` | project metadata and configuration
-`readme.md` | this getting started guide
+The scope of this project is limited to:
+    
+    - LLM Temperature
+    - Chunking Method
+    - Chunk Size
+    - Chunk Overlap
+    - Amount of Chunks given to LLM
+    - System Prompt
+
+The Pipeline consists of following steps:
+
+    1. Taking a user-made configuration of parameters
+    2. Generating Test-Data based on a given taks context
+    3. Creating a Task-set for the RAG system to fullfill
+    4. let the RAG system solve the tasks
+    5. Calculating the accuracy/quality of the answers
 
 
-## Next Steps
-
-- Open a new terminal and run `cds watch`
-- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
-- Start adding content, for example, a [db/schema.cds](db/schema.cds).
-
-
-## Learn More
-
-Learn more at https://cap.cloud.sap/docs/get-started/.
