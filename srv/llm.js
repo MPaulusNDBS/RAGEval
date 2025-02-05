@@ -1,4 +1,6 @@
 const axios = require("axios");
+const prompts = require("./prompts.json");
+const cds = require("@sap/cds");
 
 /**
  * @description
@@ -16,18 +18,6 @@ const initializeAxios = function () {
 
 const axiosInstance = initializeAxios();
 
-/**
- * @description
- * - generic "LLM-API-Caller"
- * - axiosInstance needs to be initialized beforehand
- * - use_case can be 'custom', in that case the prompt is read from the DB, or if called directly from parameter
- * - customKnowledge will be added as messages (RAG)
- * @example
- * //embedding example
- * const reply = await invokeLLM('words-embedding','hello')
- * //completion example
- * const reply = await invokeLLM('custom','how did you sleep today?',['you slept great today'],'your task is to answer how well you slept today')
- */
 const invokeLLM = function (customPrompt, text, customKnowledge, hyperparameters) {
 
     const api = {
@@ -96,7 +86,7 @@ const invokeLLM = function (customPrompt, text, customKnowledge, hyperparameters
 };
 
 
-const embeddingAPI = function (text, model, hyperparameters){
+const embeddingAPI = async function (text, model, hyperparameters){
     let data = { model: model, input: text };
         return new Promise(function (resolve, reject) {
             setTimeout(() => {
@@ -119,4 +109,18 @@ const embeddingAPI = function (text, model, hyperparameters){
         });
     }
 
-module.exports = { invokeLLM, embeddingAPI, initializeAxios };
+const taskCreator = async function (DocSourceID){
+    const docText = await cds.run(
+        `SELECT Content FROM RAGEVAL_SOURCEDOCUMENTS
+        WHERE ID = '${DocSourceID}'`
+    )
+    const message = {
+        role: "user",
+        content: docText[0].CONTENT.toString()
+    }
+    let result = await this.invokeLLM(prompts.taskCreationPrompt,"Please Create Tasks for this Document",[message],{temperature:0.5});
+    console.log(result);
+    return result;
+}
+
+module.exports = { invokeLLM, embeddingAPI, initializeAxios, taskCreator };

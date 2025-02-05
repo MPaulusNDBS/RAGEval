@@ -1,0 +1,3 @@
+{
+    "taskCreationPrompt":"You are given a Document, and your task is to create a list of 20 different tasks with answers.\n Alsways answer in the following JSON format: [{'question':'<QUESTION>','answer':'<ANSWER>'}]"
+}

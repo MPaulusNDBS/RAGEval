@@ -27,7 +27,23 @@ entity Configuration : cuid {
     }
 }
 
+entity SourceDocuments: cuid {
+    name: String;
+    type: String enum {
+        static;
+        AIgenerated;
+    };
+    content: LargeString;
+}
+
+entity Tasks : cuid{
+    sourceDoc: Association to SourceDocuments;
+    question: String;
+    answer: String;
+}
+
 entity Chunks: cuid {
+    sourceDoc: Association to SourceDocuments;
     content: LargeString;
     embedding: Vector(1536);
 }
