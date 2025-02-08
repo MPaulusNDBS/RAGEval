@@ -12,6 +12,7 @@ entity Results : cuid,managed {
 
 entity Configuration : cuid {
     llmModel: String;
+    llmTemperature: String;
     taskType: String enum {
         textExtraction;
         tableExtraction;
@@ -22,6 +23,7 @@ entity Configuration : cuid {
         recursiveChunking;
         semanticChunking;
     };
+    chunkAmount: Int16;
     embeddingModel: String enum {
         ada02
     }
@@ -43,6 +45,7 @@ entity Tasks : cuid{
 }
 
 entity Chunks: cuid {
+    testRunID: UUID;
     sourceDoc: Association to SourceDocuments;
     content: LargeString;
     embedding: Vector(1536);
