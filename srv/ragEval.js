@@ -1,5 +1,7 @@
 const llm = require("./llm");
+const prompts = require("./prompts.json");
 const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
+
 
 class RAGEvalService extends cds.ApplicationService {
     init() {
@@ -61,22 +63,39 @@ class RAGEvalService extends cds.ApplicationService {
             )
 
             //Start of RAG-Steps 
-
+            const hyperparameters = {
+                temperature: config.TEMPERATURE
+            }
             //retrieve chunks recording to question and config
             for (let task of tasks){
                 const invector = await llm.embeddingAPI(task.QUESTION,config.EMBEDDINGMODEL);
                 let retrievedChunks = await cds.run(`
-                    SELECT DISTINCT RAGEVAL_CHUNKS.ID as CHUNKID, content, cosine_similarity(embedding, to_real_vector('${invector}')) as similarity
+                    SELECT DISTINCT content, cosine_similarity(embedding, to_real_vector('${invector}')) as similarity
                     FROM RAGEVAL_CHUNKS
                     WHERE testRunID = '${testRunID}'
                     ORDER BY similarity DESC
                     limit ${config.CHUNKAMOUNT}
                 `)
+                //build messages for LLM API
+                for (let message of retrievedChunks){
+                    delete message.SIMILARITY;
+                    message.role = "user";
+                    message.name = "knowledge";
+                    message.content = message.CONTENT;
+                    delete message.CONTENT;
+                    if (message.content != undefined) {
+                        message.content = message.content.toString().replace(/\n/g, '');
+                    }
+                }
+                //answer question recording to config
+                let LLMAnswerData = await llm.invokeLLM(config.RAGPROMPT, retrievedChunks, hyperparameters);
+                const sLLLMAnswer = LLMAnswerData.data.answer;
+
+                //for every task let LLM judge if answer is correct
+                let judgeAnswer = await llm.invokeLLM(prompts.judge,sLLLMAnswer,)
+
             }
 
-            //answer question recording to config
-
-            //for every task let LLM judge if answer is correct(how much)
 
             //insert into results(count correct)
 

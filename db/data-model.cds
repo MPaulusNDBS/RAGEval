@@ -13,6 +13,7 @@ entity Results : cuid,managed {
 entity Configuration : cuid {
     llmModel: String;
     llmTemperature: String;
+    ragPrompt: String;
     taskType: String enum {
         textExtraction;
         tableExtraction;

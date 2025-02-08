@@ -34,9 +34,8 @@ const invokeLLM = function (customPrompt, text, customKnowledge, hyperparameters
         text = text.replace(/'/g, ' ');
     }
     //completions API
-    //set default completions api for davinci-text series model
     let messages = [{ role: "user", content: `${text}` }];
-    //chat api is recommended GPT-3.5-Turbo onward
+    
     messages = [
         {
             role: "system",
