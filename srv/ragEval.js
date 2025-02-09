@@ -1,13 +1,14 @@
+const e = require("express");
 const llm = require("./llm");
 const prompts = require("./prompts.json");
 const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
+const { cdl } = require("@sap/cds/lib/compile/parse");
 
 
 class RAGEvalService extends cds.ApplicationService {
     init() {
         this.on("test", async (req)=>{
-            const res = await llm.embeddingAPI("say hello to every user", "text-embedding-ada-002")
-            console.log(res)
+            await cds.run(`DELETE FROM RAGEVAL_CHUNKS`)
         })
         
         this.on("runTestForConfig", async (req)=>{
@@ -41,7 +42,8 @@ class RAGEvalService extends cds.ApplicationService {
                 chunkOverlap: config.CHUNKOVERLAP,
             });
             
-            let textChunks = await splitter.splitText(docText);
+            let textChunks = await splitter.splitText(docText.toString());
+            
             for (let chunk of textChunks){
                 chunk = chunk.replace(/'/g, ' ');
                 //create vector embeddings according to config
@@ -58,19 +60,21 @@ class RAGEvalService extends cds.ApplicationService {
                 `
                 SELECT *
                 FROM RAGEVAL_TASKS
-                WHERE SOURCEDOC = '${req.data.sourceDocID}'
+                WHERE SOURCEDOC_ID = '${req.data.sourceDocID}'
                 `
             )
-
             //Start of RAG-Steps 
             const hyperparameters = {
-                temperature: config.TEMPERATURE
+                temperature: config.LLMTEMPERATURE
             }
+            
+            let amountCorrect = 0,amountFalse = 0,amountNone = 0;
+
             //retrieve chunks recording to question and config
             for (let task of tasks){
                 const invector = await llm.embeddingAPI(task.QUESTION,config.EMBEDDINGMODEL);
                 let retrievedChunks = await cds.run(`
-                    SELECT DISTINCT content, cosine_similarity(embedding, to_real_vector('${invector}')) as similarity
+                    SELECT content, cosine_similarity(embedding, to_real_vector('${invector}')) as similarity
                     FROM RAGEVAL_CHUNKS
                     WHERE testRunID = '${testRunID}'
                     ORDER BY similarity DESC
@@ -88,16 +92,54 @@ class RAGEvalService extends cds.ApplicationService {
                     }
                 }
                 //answer question recording to config
-                let LLMAnswerData = await llm.invokeLLM(config.RAGPROMPT, retrievedChunks, hyperparameters);
+                let LLMAnswerData = await llm.invokeLLM(config.RAGPROMPT,task.QUESTION, retrievedChunks, hyperparameters);
                 const sLLLMAnswer = LLMAnswerData.data.answer;
 
+                //build customKnowledge for judging
+                const knowledgeForJudge = [
+                    {
+                        role: "user",
+                        name: "knowledge",
+                        content: `question:${task.QUESTION} correct Answer: ${task.ANSWER}`
+                    },
+                    {
+                        role: "user",
+                        name: "answer",
+                        content: "answer to be judged:" + sLLLMAnswer
+                    }
+                ];
+                const fixedHyperParameters = {
+                    temperature: 0.5
+                }
                 //for every task let LLM judge if answer is correct
-                let judgeAnswer = await llm.invokeLLM(prompts.judge,sLLLMAnswer,)
+                let judgeAnswer = await llm.invokeLLM(prompts.judge,"",knowledgeForJudge,fixedHyperParameters);
+                console.log(task.ANSWER)
+                console.log(sLLLMAnswer)
+                console.log(judgeAnswer)
+                try {
+                    if (judgeAnswer.data){
+                        amountCorrect++;
+                    } else {
+                        amountFalse++;
+                    }
+                }
+                catch {
+                    amountNone++;
+                }
 
             }
 
+            //Insert results
+            await cds.run (`
+                INSERT INTO RAGEVAL_RESULTS VALUES
+                ('${cds.utils.uuid()}','${req.data.configID}',${amountCorrect},${amountFalse},${amountNone})
+            `)
 
-            //insert into results(count correct)
+            return {
+                amountCorrect,
+                amountFalse,
+                amountNone
+            }
 
         })
 

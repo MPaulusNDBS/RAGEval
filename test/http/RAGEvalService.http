@@ -1,9 +1,7 @@
 @server = http://localhost:4004
 
 
-### Results
-# @name Results_GET
-GET {{server}}/odata/v4/rageval/Results
+
 
 
 
@@ -13,39 +11,39 @@ POST {{server}}/odata/v4/rageval/Results
 Content-Type: application/json
 
 {
-  "ID": "8299210a-60be-4ee1-a649-a5c2c18475e0",
+  "ID": "4054242b-7fbd-47d7-8e6a-545dbf6b65df",
   "configuration": {
-    "ID": "15458937-2e43-43d4-91bf-8da2c26b1cf8"
+    "ID": "9793124e-7c7c-415b-b650-f8d660460477"
   },
-  "rating": 81.32,
-  "createdAt": "2006-05-25T00:00:00.000Z",
-  "createdBy": "createdBy.hsdd@example.net",
-  "modifiedAt": "2012-02-27T00:00:00.000Z",
-  "modifiedBy": "modifiedBy.hsdd@example.com"
+  "rating": 38.29,
+  "createdAt": "2022-06-16T00:00:00.000Z",
+  "createdBy": "createdBy.2ew9u@example.org",
+  "modifiedAt": "2003-11-21T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.2ew9u@example.org"
 }
 
 
 ### Results
 # @name Results_PATCH
-PATCH {{server}}/odata/v4/rageval/Results/8299210a-60be-4ee1-a649-a5c2c18475e0
+PATCH {{server}}/odata/v4/rageval/Results/4054242b-7fbd-47d7-8e6a-545dbf6b65df
 Content-Type: application/json
 
 {
-  "ID": "8299210a-60be-4ee1-a649-a5c2c18475e0",
+  "ID": "4054242b-7fbd-47d7-8e6a-545dbf6b65df",
   "configuration": {
-    "ID": "15458937-2e43-43d4-91bf-8da2c26b1cf8"
+    "ID": "9793124e-7c7c-415b-b650-f8d660460477"
   },
-  "rating": 81.32,
-  "createdAt": "2006-05-25T00:00:00.000Z",
-  "createdBy": "createdBy.hsdd@example.net",
-  "modifiedAt": "2012-02-27T00:00:00.000Z",
-  "modifiedBy": "modifiedBy.hsdd@example.com"
+  "rating": 38.29,
+  "createdAt": "2022-06-16T00:00:00.000Z",
+  "createdBy": "createdBy.2ew9u@example.org",
+  "modifiedAt": "2003-11-21T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.2ew9u@example.org"
 }
 
 
 ### Results
 # @name Results_DELETE
-DELETE {{server}}/odata/v4/rageval/Results/8299210a-60be-4ee1-a649-a5c2c18475e0
+DELETE {{server}}/odata/v4/rageval/Results/4054242b-7fbd-47d7-8e6a-545dbf6b65df
 Content-Type: application/json
 
 
@@ -61,35 +59,41 @@ POST {{server}}/odata/v4/rageval/Configuration
 Content-Type: application/json
 
 {
-  "ID": "15458937-2e43-43d4-91bf-8da2c26b1cf8",
-  "llmModel": "gpt-4o",
-  "taskType": "textExtraction",
-  "chunkSize": 1000,
+  "ID": "15458937-2e43-43d4-91bf-8da2c26b1df8",
+  "chunkAmount": 5,
   "chunkOverlap": 100,
+  "chunkSize": 1000,
   "chunkingMethod": "recursiveChunking",
-  "embeddingModel": "ada02"
+  "embeddingModel": "ada02",
+  "llmModel": "gpt-4o",
+  "llmTemperature": 1.0,
+  "ragPrompt": "you are an AI assistant that helps by provoding legal information from legal documents, please refer to the knowledge provided to you, to answer the question of the user",
+  "taskType": "textExtraction"
 }
 
 
 ### Configuration
 # @name Configuration_PATCH
-PATCH {{server}}/odata/v4/rageval/Configuration/15458937-2e43-43d4-91bf-8da2c26b1cf8
+PATCH {{server}}/odata/v4/rageval/Configuration/9793124e-7c7c-415b-b650-f8d660460477
 Content-Type: application/json
 
 {
-  "ID": "15458937-2e43-43d4-91bf-8da2c26b1cf8",
-  "llmModel": "llmModel-1545893",
+  "ID": "9793124e-7c7c-415b-b650-f8d660460477",
+  "llmModel": "llmModel-9793124",
+  "llmTemperature": "llmTemperature-9793124",
+  "ragPrompt": "ragPrompt-9793124",
   "taskType": "tableExtraction",
-  "chunkSize": 57,
-  "chunkOverlap": 0,
+  "chunkSize": 98,
+  "chunkOverlap": 67,
   "chunkingMethod": "semanticChunking",
+  "chunkAmount": 51,
   "embeddingModel": "ada02"
 }
 
 
 ### Configuration
 # @name Configuration_DELETE
-DELETE {{server}}/odata/v4/rageval/Configuration/15458937-2e43-43d4-91bf-8da2c26b1cf8
+DELETE {{server}}/odata/v4/rageval/Configuration/9793124e-7c7c-415b-b650-f8d660460477
 Content-Type: application/json
 
 
@@ -105,25 +109,33 @@ POST {{server}}/odata/v4/rageval/Chunks
 Content-Type: application/json
 
 {
-  "ID": "43748472-90f2-4d19-82d7-977a1faa6576",
-  "content": "content-4374847"
+  "ID": "9069293d-b5fb-4a5f-b5fe-e13f334b4152",
+  "testRunID": "9069293d-ee3d-45c4-b562-b3938fb260cd",
+  "sourceDoc": {
+    "ID": "19766586-2f55-4d27-b047-5a0f4865a3ba"
+  },
+  "content": "content-9069293"
 }
 
 
 ### Chunks
 # @name Chunks_PATCH
-PATCH {{server}}/odata/v4/rageval/Chunks/43748472-90f2-4d19-82d7-977a1faa6576
+PATCH {{server}}/odata/v4/rageval/Chunks/9069293d-b5fb-4a5f-b5fe-e13f334b4152
 Content-Type: application/json
 
 {
-  "ID": "43748472-90f2-4d19-82d7-977a1faa6576",
-  "content": "content-4374847"
+  "ID": "9069293d-b5fb-4a5f-b5fe-e13f334b4152",
+  "testRunID": "9069293d-ee3d-45c4-b562-b3938fb260cd",
+  "sourceDoc": {
+    "ID": "19766586-2f55-4d27-b047-5a0f4865a3ba"
+  },
+  "content": "content-9069293"
 }
 
 
 ### Chunks
 # @name Chunks_DELETE
-DELETE {{server}}/odata/v4/rageval/Chunks/43748472-90f2-4d19-82d7-977a1faa6576
+DELETE {{server}}/odata/v4/rageval/Chunks/9069293d-b5fb-4a5f-b5fe-e13f334b4152
 Content-Type: application/json
 
 
@@ -139,30 +151,72 @@ POST {{server}}/odata/v4/rageval/SourceDocuments
 Content-Type: application/json
 
 {
-  "ID": "715038d1-b7f8-4eaa-9e89-8b4d2ba1caf8",
-  "name": "Deutsches Grundgesetz",
+  "ID": "19766586-2f55-4d27-b047-5a0f4865a3ba",
+  "name": "name-19766586",
   "type": "static",
-  "content": ""
+  "content": "content-19766586"
 }
 
 
 ### SourceDocuments
 # @name SourceDocuments_PATCH
-PATCH {{server}}/odata/v4/rageval/SourceDocuments/715038d1-b7f8-4eaa-9e89-8b4d2ba1caf8
+PATCH {{server}}/odata/v4/rageval/SourceDocuments/19766586-2f55-4d27-b047-5a0f4865a3ba
 Content-Type: application/json
 
 {
-  "ID": "715038d1-b7f8-4eaa-9e89-8b4d2ba1caf8",
+  "ID": "19766586-2f55-4d27-b047-5a0f4865a3ba",
+  "name": "name-19766586",
   "type": "static",
-  "content": "content-715038"
+  "content": "content-19766586"
 }
 
 
 ### SourceDocuments
 # @name SourceDocuments_DELETE
-DELETE {{server}}/odata/v4/rageval/SourceDocuments/715038d1-b7f8-4eaa-9e89-8b4d2ba1caf8
+DELETE {{server}}/odata/v4/rageval/SourceDocuments/19766586-2f55-4d27-b047-5a0f4865a3ba
 Content-Type: application/json
 
+
+### Tasks
+# @name Tasks_GET
+GET {{server}}/odata/v4/rageval/Tasks
+
+
+
+### Tasks
+# @name Tasks_POST
+POST {{server}}/odata/v4/rageval/Tasks
+Content-Type: application/json
+
+{
+  "ID": "24625051-7c88-4366-a1fa-93cd632c2b64",
+  "sourceDoc": {
+    "ID": "19766586-2f55-4d27-b047-5a0f4865a3ba"
+  },
+  "question": "question-24625051",
+  "answer": "answer-24625051"
+}
+
+
+### Tasks
+# @name Tasks_PATCH
+PATCH {{server}}/odata/v4/rageval/Tasks/24625051-7c88-4366-a1fa-93cd632c2b64
+Content-Type: application/json
+
+{
+  "ID": "24625051-7c88-4366-a1fa-93cd632c2b64",
+  "sourceDoc": {
+    "ID": "19766586-2f55-4d27-b047-5a0f4865a3ba"
+  },
+  "question": "question-24625051",
+  "answer": "answer-24625051"
+}
+
+
+### Tasks
+# @name Tasks_DELETE
+DELETE {{server}}/odata/v4/rageval/Tasks/24625051-7c88-4366-a1fa-93cd632c2b64
+Content-Type: application/json
 
 ### test
 # @name test_POST
@@ -178,14 +232,20 @@ POST {{server}}/odata/v4/rageval/runTestForConfig
 Content-Type: application/json
 
 {
-  "configID": "configID-21970381"
+  "configID": "15458937-2e43-43d4-91bf-8da2c26b1df8",
+  "sourceDocID": "715038d1-b7f8-4eaa-9e89-8b4d2ba1caf8"
 }
 
-### runTestForConfig
-# @name createTasks
+### Results
+# @name Results_GET
+GET {{server}}/odata/v4/rageval/Results
+
+
+### taskGeneration
+# @name taskGeneration_POST
 POST {{server}}/odata/v4/rageval/taskGeneration
 Content-Type: application/json
 
 {
-  "SourceID": "715038d1-b7f8-4eaa-9e89-8b4d2ba1caf8"
+  "SourceID": "SourceID-28606913"
 }

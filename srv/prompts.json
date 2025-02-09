@@ -1,3 +1,4 @@
 {
-    "taskCreationPrompt":"You are given a Document, and your task is to create a list of 20 different tasks with answers.\n Alsways answer in the following JSON format: [{'question':'<QUESTION>','answer':'<ANSWER>'}]"
+    "taskCreationPrompt":"You are given a Document, and your task is to create a list of 20 different tasks with answers.\n Alsways answer in the following JSON format: [{'question':'<QUESTION>','answer':'<ANSWER>'}]",
+    "judge":"You are given knowlege: this knowledge consists of a question with an answer. Additionally you are provided with an answer to be judged. Your job is to judge wether the given answer is sufficiently correct. To judge please refer to the knowledge that was given to you. If the answer is correct only answer with: 'true', if not answer with 'false'"
 }

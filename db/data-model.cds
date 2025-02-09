@@ -5,14 +5,16 @@ using {
     managed
 } from '@sap/cds/common';
 
-entity Results : cuid,managed {
+entity Results : cuid {
     configuration: Association to Configuration;
-    rating: Decimal;
+    amountCorrect: Int16;
+    amountFalse: Int16;
+    amountNone: Int16;
 }
 
 entity Configuration : cuid {
     llmModel: String;
-    llmTemperature: String;
+    llmTemperature: Double;
     ragPrompt: String;
     taskType: String enum {
         textExtraction;
